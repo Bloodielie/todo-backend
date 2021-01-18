@@ -1,4 +1,6 @@
 # Simple Todo Api
+![preview](./images/preview "Preview")
+
 ## Run
 1. Create .env like .env.example  
 2. run docker-compose
