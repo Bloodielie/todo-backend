@@ -40,9 +40,6 @@ async def login_for_access_token(
     access_token = jwt_service.create_access_token(data=payload_data)
 
     refresh_token = jwt_service.create_refresh_token(data=payload_data)
-    deleted_refresh_token = await refresh_token_service.delete_by_user_id(user.id)
-    if deleted_refresh_token is None:
-        raise HTTPException(status_code=400, detail="Failed to delete refresh token")
     refresh_token_in_db = await refresh_token_service.create(refresh_token, user.id)
     if refresh_token_in_db is None:
         raise HTTPException(status_code=400, detail="Failed to write refresh token")
