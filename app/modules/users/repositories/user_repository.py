@@ -15,6 +15,13 @@ class UserRepository(IUserRepository):
             return None
         return self._mapping_record_to_model(User, record)
 
+    async def get_by_id(self, id: int) -> Optional[User]:
+        query = users.select().where(users.c.id == id)
+        record = await self._db.fetch_one(query)
+        if record is None:
+            return None
+        return self._mapping_record_to_model(User, record)
+
     async def create(self, email: str, password: str, user_name: Optional[str]) -> Optional[User]:
         query = users.insert().values(email=email, password=password, user_name=user_name).returning(*users.columns)
         try:

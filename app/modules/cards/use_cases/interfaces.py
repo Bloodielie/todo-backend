@@ -26,6 +26,10 @@ class ICardRepository(BaseRepository):
     async def update(self, id: int, card: UpdateCard) -> Optional[Card]:
         pass
 
+    @abstractmethod
+    async def search_by_text(self, text: str) -> Optional[List[Card]]:
+        pass
+
 
 class ICardService(ABC):
     @abstractmethod
@@ -46,4 +50,8 @@ class ICardService(ABC):
 
     @abstractmethod
     async def update(self, id: int, card: UpdateCard) -> Optional[Card]:
+        pass
+
+    @abstractmethod
+    async def search_by_text(self, text: str) -> Optional[List[Card]]:
         pass

@@ -1,12 +1,13 @@
-from typing import AsyncGenerator
+from typing import AsyncGenerator, Dict
 
 import pytest
 from httpx import AsyncClient
 from databases import Database
 from pyject import IContainer
 
-from app.config import DB_URL, API_PATH
+from app.config import DB_URL, API_PATH, first_superuser_email, first_superuser_password
 from app.main import app
+from app.modules.auth.dtos.token import Token
 
 
 @pytest.fixture
@@ -22,3 +23,21 @@ async def client() -> AsyncGenerator[AsyncClient, None]:
     async with AsyncClient(app=app, base_url=f"http://127.0.0.1:8000{API_PATH}") as c:
         yield c
     await new_database.disconnect()
+
+
+@pytest.fixture
+async def access_token(client: AsyncClient) -> Token:
+    account_data = {
+        "username": first_superuser_email,
+        "password": first_superuser_password,
+        "scope": None,
+        "client_id": None,
+        "client_secret": None,
+    }
+    r = await client.post("/auth/sign_in", data=account_data)
+    return Token.parse_obj(r.json())
+
+
+@pytest.fixture
+async def headers(access_token: Token) -> Dict[str, str]:
+    return {"Authorization": f"{access_token.token_type} {access_token.access_token}"}

@@ -6,5 +6,5 @@ from app.modules.auth.controller import router as auth_router
 
 main_router = APIRouter()
 
-main_router.include_router(card_router, prefix="/card", tags=["Cards"], dependencies=[Depends(validate_jwt_token)])
+main_router.include_router(card_router, prefix="/task", tags=["Tasks"], dependencies=[Depends(validate_jwt_token)])
 main_router.include_router(auth_router, prefix="/auth", tags=["Auth"])

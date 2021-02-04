@@ -12,6 +12,10 @@ class IUserRepository(BaseRepository):
         pass
 
     @abstractmethod
+    async def get_by_id(self, id: int) -> Optional[User]:
+        pass
+
+    @abstractmethod
     async def create(self, email: str, password: str, user_name: Optional[str]) -> Optional[User]:
         pass
 
@@ -23,4 +27,8 @@ class IUserService(ABC):
 
     @abstractmethod
     async def create(self, email: str, password: str, user_name: Optional[str]) -> Optional[User]:
+        pass
+
+    @abstractmethod
+    async def get_by_id(self, id: int) -> Optional[User]:
         pass

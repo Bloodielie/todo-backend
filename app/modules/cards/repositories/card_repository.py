@@ -50,3 +50,10 @@ class CardRepository(ICardRepository):
         if db_card is not None:
             return self._mapping_record_to_model(Card, db_card)
         return None
+
+    async def search_by_text(self, text: str) -> Optional[List[Card]]:
+        query = cards.select().where(cards.c.text.contains(text))
+        records = await self._db.fetch_all(query)
+        if not records:
+            return None
+        return [self._mapping_record_to_model(Card, record) for record in records]

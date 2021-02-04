@@ -16,3 +16,6 @@ class UserService(IUserService):
     async def create(self, email: str, password: str, user_name: Optional[str]) -> Optional[User]:
         hashed_password = self._password_hash_service.get_password_hash(password)
         return await self._repository.create(email, hashed_password, user_name)
+
+    async def get_by_id(self, id: int) -> Optional[User]:
+        return await self._repository.get_by_id(id)

@@ -1,8 +1,11 @@
 from pyject import BaseContainer
 
-from app.modules.auth.use_cases.interfaces import IJwtService, IPasswordHashService
+from app.modules.auth.repositories.refresh_token_repository import RefreshTokenRepository
+from app.modules.auth.use_cases.interfaces import IJwtService, IPasswordHashService, IRefreshTokenService, \
+    IRefreshTokenRepository
 from app.modules.auth.use_cases.jwt_service import JwtService
 from app.modules.auth.use_cases.passwordhash_service import PasswordHashService
+from app.modules.auth.use_cases.refresh_token_service import RefreshTokenService
 from app.modules.cards.use_cases.interfaces import ICardRepository, ICardService
 from app.modules.cards.repositories.card_repository import CardRepository
 from app.modules.cards.use_cases.card_service import CardService
@@ -20,3 +23,6 @@ def configure_dependencies(container: BaseContainer) -> None:
 
     container.add_singleton(IJwtService, JwtService)
     container.add_singleton(IPasswordHashService, PasswordHashService)
+
+    container.add_singleton(IRefreshTokenRepository, RefreshTokenRepository)
+    container.add_singleton(IRefreshTokenService, RefreshTokenService)

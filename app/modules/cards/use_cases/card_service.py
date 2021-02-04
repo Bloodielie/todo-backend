@@ -22,3 +22,6 @@ class CardService(ICardService):
 
     async def update(self, id: int, card: UpdateCard) -> Optional[Card]:
         return await self._repository.update(id, card)
+
+    async def search_by_text(self, text: str) -> Optional[List[Card]]:
+        return await self._repository.search_by_text(text)
